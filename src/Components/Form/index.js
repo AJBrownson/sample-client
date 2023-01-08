@@ -14,13 +14,15 @@ const Form = () => {
     axios.post('http://localhost:5000/api/staff', { name, comment })
     .then(res => {
       console.log(res.data)
+      window.alert('Sign In successful!')
     })
     .catch((err) => {
       console.log(err)
+      window.alert('An error occurred. Try again!')
     })
+
     // This clears form input values after submission
     setName('')
-
     setComment('')
   };
 
