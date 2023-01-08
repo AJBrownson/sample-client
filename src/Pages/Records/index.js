@@ -1,42 +1,41 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import StaffTable from './data'
-import './styles.css'
+import { useState, useEffect } from "react";
+import axios from "axios";
+import StaffTable from "./data";
+import "./styles.css";
 
-export default class Records extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { staffMembers: [] };
-    }
-    componentDidMount() {
-        axios.get('http://localhost:5000/api/staff')
-            .then(res => {
-                this.setState({ staffMembers: res.data });
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-    }
-    staffTable() {
-        return this.state.staffMembers.map((data, i) => {
-            return <StaffTable obj={data} key={i} />;
-        });
-    }
-    render() {
-        return (
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Name</td>
-                                <td>Comment</td>
-                                <td>Time</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.staffTable()}
-                        </tbody>
-                    </table>
-        )
-    }
-}
+const Records = () => {
+  const [staffMembers, setStaffMembers] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/staff")
+      .then((res) => {
+        setStaffMembers(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  if (!staffMembers) return null;
+
+  const staffTable = () => {
+    return staffMembers.map((data, i) => {
+      return <StaffTable obj={data} key={i} />;
+    });
+  };
+  return (
+    <table>
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Comment</td>
+          <td>Time</td>
+        </tr>
+      </thead>
+      <tbody>{staffTable()}</tbody>
+    </table>
+  );
+};
+
+export default Records;

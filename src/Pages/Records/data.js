@@ -5,9 +5,6 @@ const StaffTable = (props) => {
     return (
         <tr>
             <td>
-                {props.obj._id}
-            </td>
-            <td>
                 {props.obj.name}
             </td>
             <td>
